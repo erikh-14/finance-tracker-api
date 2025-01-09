@@ -3,6 +3,8 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useGlobalContext } from "../../context/globalContext";
+import Button from "../Button/Button";
+import { plus } from "../../utils/Icons";
 
 function Form() {
     const { addIncome } = useGlobalContext();
@@ -94,7 +96,14 @@ function Form() {
                 ></textarea>
             </div>
             <div className="submit-btn">
-                <button type="submit">Add Income</button>
+                <Button
+                    name={'Add Income'}
+                    icon={plus}
+                    bPad={".8rem 1.6rem"}
+                    bRad={"30px"}
+                    bg={"var(--color-accent)"}
+                    color={"#fff"}
+                />
             </div>
         </FormStyled>
     );
@@ -119,6 +128,12 @@ const FormStyled = styled.form`
             border: 2px solid #ddd;
             border-radius: 8px;
             outline: none;
+            background: transparent;
+            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+            color: rgba(34, 34, 96, 0.6);
+            &::placeholder {
+                color: rgba(34, 34, 96, 0.6);
+            }
             transition: border 0.3s ease;
 
             &:focus {
@@ -126,7 +141,7 @@ const FormStyled = styled.form`
             }
         }
     }
-
+    
     .submit-btn {
         display: flex;
         justify-content: center;
@@ -134,15 +149,15 @@ const FormStyled = styled.form`
         button {
             padding: 1rem 2rem;
             font-size: 1.2rem;
-            background-color: var(--color-green);
-            color: white;
+           
+            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
 
             &:hover {
-                background-color: #3d9e00;
+                background: var(--color-green) !important;
             }
         }
     }

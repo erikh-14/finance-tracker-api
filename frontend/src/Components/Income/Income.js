@@ -21,7 +21,7 @@ function Income() {
                         <Form />
                     </div>
                     <div className="incomes">
-                        <h2>Income List</h2>
+                        <h1>Incomes</h1>
                         {incomes && incomes.length > 0 ? ( // Check if incomes exists and has length
                             <ul>
                                 {incomes.map((income) => (
