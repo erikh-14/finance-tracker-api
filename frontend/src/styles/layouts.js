@@ -12,6 +12,10 @@ export const MainLayout = styled.div`
 
 
 export const InnerLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
     height: 100vh; /* Full viewport height for inner layout */
     position: relative;
     background-image: url(${props => props.bg});
