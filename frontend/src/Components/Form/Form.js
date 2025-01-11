@@ -6,8 +6,9 @@ import { useGlobalContext } from "../../context/globalContext";
 import Button from "../Button/Button";
 import { plus } from "../../utils/Icons";
 
+
 function Form() {
-    const { addIncome } = useGlobalContext();
+    const { addIncome, getIncomes } = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: "",
         amount: "",
@@ -27,6 +28,7 @@ function Form() {
         e.preventDefault(); // Prevent the default form submission behavior
         console.log("Submitting data:", inputState); // Debug log
         addIncome(inputState); // Call the addIncome function from context
+        getIncomes()
         setInputState({
             title: "",
             amount: "",
@@ -151,12 +153,13 @@ const FormStyled = styled.form`
             font-size: 1.2rem;
            
             box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-            border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            
 
             &:hover {
+                
                 background: var(--color-green) !important;
             }
         }
