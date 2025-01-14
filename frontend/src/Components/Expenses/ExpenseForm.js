@@ -62,7 +62,7 @@ function ExpenseForm() {
                     id="date"
                     selected={date}
                     placeholderText="Enter A Date"
-                    dateFormat="dd/MM/yyyy"
+                    dateFormat="MM/dd/yyyy"
                     onChange={(date) =>
                         setInputState({ ...inputState, date: date })
                     }
@@ -75,14 +75,15 @@ function ExpenseForm() {
                     name="category"
                     onChange={handleInput("category")}
                 >
-                    <option value="salary">Salary</option>
-                    <option value="freelancing">Freelancing</option>
-                    <option value="investments">Investments</option>
-                    <option value="side-hustle">Side Hustle</option>
-                    <option value="savings">Savings</option>
-                    <option value="stocks">Stocks</option>
-                    <option value="bank">Bank</option>
-                    <option value="others">Others</option>
+                    <option value="" disabled>Select Option</option>
+                    <option value="education">Education</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="health">Health</option>
+                    <option value="subscriptions">Subscriptions</option>
+                    <option value="takeaways">Takeaways</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="traveling">Traveling</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div className="input-control">

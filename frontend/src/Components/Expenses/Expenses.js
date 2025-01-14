@@ -14,7 +14,7 @@ function Expense() {
     }, [getExpenses]);
 
     return (
-        <IncomeStyled>
+        <ExpenseStyled>
             <InnerLayout>
                 <h1>Expenses</h1>
                 <h2 className="total-expenses">Total Expenses: <span>${totalExpenses()}</span></h2>
@@ -23,14 +23,15 @@ function Expense() {
                         <ExpenseForm />
                     </div>
                     <div className="incomes">
-                    {incomes.map((income) => {
-                            const { _id, title, amount, date, category, description } = income;
+                    {expenses.map((income) => {
+                            const { _id, type, title, amount, date, category, description } = income;
                             return <IncomeItem 
                             key={_id} 
                             id={_id} 
                             title={title} 
                             amount={amount} 
                             date={date} 
+                            type={type}
                             category={category} 
                             description={description}
                             indicatorColor={"var(--color-green)"}
@@ -40,11 +41,11 @@ function Expense() {
                     </div>
                 </div>
             </InnerLayout>
-        </IncomeStyled>
+        </ExpenseStyled>
     );
 }
 
-const IncomeStyled = styled.div`
+const ExpenseStyled = styled.div`
     display: flex;
     overflow: auto;
     .total-income {

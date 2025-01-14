@@ -5,6 +5,7 @@ import { calendar, comment, dollar, piggy, trash,
     users, yt, bitcoin, card, freelance, money, circle, 
     stocks} from "../../utils/Icons";
 import Button from "../Button/Button";
+import { dateFormat } from "../../utils/dateFormat";
 function IncomeItem( {
 
 
@@ -75,7 +76,7 @@ function IncomeItem( {
                 <div className="inner-content">
                     <div className="text">
                         <p>{dollar} {amount}</p>
-                        <p>{calendar} {date}</p>
+                        <p>{calendar} {dateFormat(date)}</p>
                         <p>{comment} 
                            {description}
                         </p>

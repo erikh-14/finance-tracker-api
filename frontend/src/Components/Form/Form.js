@@ -63,7 +63,7 @@ function Form() {
                     id="date"
                     selected={date}
                     placeholderText="Enter A Date"
-                    dateFormat="dd/MM/yyyy"
+                    dateFormat="MM/dd/yyyy"
                     onChange={(date) =>
                         setInputState({ ...inputState, date: date })
                     }
