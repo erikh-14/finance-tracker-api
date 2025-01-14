@@ -57,7 +57,7 @@ export const GlobalProvider = ({ children }) => {
             return new Date(b.createdAt) - new Date(a.createdAt)
         });
 
-        return history
+        return history.slice(0, 3);
     };
     
 
@@ -103,7 +103,7 @@ export const GlobalProvider = ({ children }) => {
 
 
     return (
-        <GlobalContext.Provider value={{ incomes,expenses, totalIncome, getIncomes, addIncome, deleteIncome, addExpense, deleteExpense, totalExpenses, getExpenses, totalBalance, transactionHistory }}>
+        <GlobalContext.Provider value={{ error, setError, incomes,expenses, totalIncome, getIncomes, addIncome, deleteIncome, addExpense, deleteExpense, totalExpenses, getExpenses, totalBalance, transactionHistory }}>
             {children}
         </GlobalContext.Provider>
     );

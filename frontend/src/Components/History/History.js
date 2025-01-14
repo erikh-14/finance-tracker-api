@@ -39,16 +39,22 @@ function History() {
 const HistoryStyled = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem; /* Increased gap between history items */
+
+    h2 {
+        margin-bottom: 1rem; /* Adds spacing after the Recent History heading */
+    }
+
     .history-item {
-        background: #FCF6F9;
-        border: 2px solid #FFFFFF;
+        background: #fcf6f9;
+        border: 2px solid #ffffff;
         box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
         border-radius: 20px;
         padding: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
 `;
 
 export default History

@@ -1,17 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { InnerLayout } from "../../styles/layouts";
 import { useGlobalContext } from "../../context/globalContext";
-import ExpenseForm from "../Expenses/ExpenseForm";
+import Form from "../Form/Form";
 import IncomeItem from "../IncomeItem/IncomeItem";
-import Income from "../Income/Income";
+import { plus } from "../../utils/Icons";
 
 function Expense() {
-    const { incomes, getExpenses, expenses, deleteExpense, totalExpenses } = useGlobalContext();
+    const { addExpense, getExpenses, expenses, deleteExpense, totalExpenses, error, setError } = useGlobalContext();
+    const [inputState, setInputState] = useState({
+        title: "",
+        amount: "",
+        date: "",
+        category: "",
+        description: "",
+    });
 
     useEffect(() => {
         getExpenses(); // Fetch expenses on component mount
     }, [getExpenses]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addExpense(inputState);
+        setInputState({
+            title: "",
+            amount: "",
+            date: null,
+            category: "",
+            description: "",
+        });
+    };
+
+    const handleInput = (name) => (event) => {
+        const value = name === "amount" ? parseFloat(event.target.value) : event.target.value;
+        setError('');
+        return value;
+    };
+
+    const categories = [
+        { value: "education", label: "Education" },
+        { value: "groceries", label: "Groceries" },
+        { value: "health", label: "Health" },
+        { value: "subscriptions", label: "Subscriptions" },
+        { value: "takeaways", label: "Takeaways" },
+        { value: "clothing", label: "Clothing" },
+        { value: "traveling", label: "Traveling" },
+        { value: "other", label: "Other" },
+    ];
 
     return (
         <ExpenseStyled>
@@ -20,23 +56,35 @@ function Expense() {
                 <h2 className="total-expenses">Total Expenses: <span>${totalExpenses()}</span></h2>
                 <div className="expense-content">
                     <div className="form-container">
-                        <ExpenseForm />
+                        <Form
+                            handleSubmit={handleSubmit}
+                            handleInput={handleInput}
+                            inputState={inputState}
+                            error={error}
+                            buttonText="Add Expense"
+                            titlePlaceholder="Expense Title"
+                            amountPlaceholder="Expense Amount"
+                            categories={categories}
+                            icon={plus}
+                        />
                     </div>
                     <div className="incomes">
-                    {expenses.map((income) => {
-                            const { _id, type, title, amount, date, category, description } = income;
-                            return <IncomeItem 
-                            key={_id} 
-                            id={_id} 
-                            title={title} 
-                            amount={amount} 
-                            date={date} 
-                            type={type}
-                            category={category} 
-                            description={description}
-                            indicatorColor={"var(--color-green)"}
-                            deleteItem={deleteExpense} />;
-
+                        {expenses.map((expense) => {
+                            const { _id, type, title, amount, date, category, description } = expense;
+                            return (
+                                <IncomeItem
+                                    key={_id}
+                                    id={_id}
+                                    title={title}
+                                    amount={amount}
+                                    date={date}
+                                    type={type}
+                                    category={category}
+                                    description={description}
+                                    indicatorColor={"var(--color-red)"}
+                                    deleteItem={deleteExpense}
+                                />
+                            );
                         })}
                     </div>
                 </div>
@@ -48,7 +96,8 @@ function Expense() {
 const ExpenseStyled = styled.div`
     display: flex;
     overflow: auto;
-    .total-income {
+
+    .total-expenses {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -60,17 +109,19 @@ const ExpenseStyled = styled.div`
         margin: 1rem 0;
         font-size: 2rem;
         gap: .5rem;
+        
         span {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--color-green);
+            color: var(--color-red) !important;
         }
     }
-    .income-content {
+    .expense-content {
         display: flex;
         gap: 2rem;
+
         .incomes {
-            flex: 1;  
+            flex: 1;
         }
     }
 `;

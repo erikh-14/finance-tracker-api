@@ -8,7 +8,7 @@ import { plus } from "../../utils/Icons";
 
 
 function ExpenseForm() {
-    const { addExpense, getExpenses } = useGlobalContext();
+    const { addExpense, error, setError } = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: "",
         amount: "",
@@ -22,6 +22,7 @@ function ExpenseForm() {
     const handleInput = (name) => (event) => {
         const value = name === "amount" ? parseFloat(event.target.value) : event.target.value;
         setInputState({ ...inputState, [name]: value });
+        setError('')
     };
 
     const handleSubmit = async (e) => {
@@ -39,6 +40,7 @@ function ExpenseForm() {
 
     return (
         <ExpenseFormStyled onSubmit={handleSubmit}>
+            {error && <p className="error">{error}</p>}
             <div className="input-control">
                 <input
                     type="text"

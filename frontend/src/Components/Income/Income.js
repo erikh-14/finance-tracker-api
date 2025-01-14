@@ -1,17 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { InnerLayout } from "../../styles/layouts";
 import { useGlobalContext } from "../../context/globalContext";
 import Form from "../Form/Form";
 import IncomeItem from "../IncomeItem/IncomeItem";
+import { plus } from "../../utils/Icons";
 
 function Income() {
-    const { addIncome, deleteIncome, getIncomes, incomes, totalIncome } = useGlobalContext();
+    const { addIncome, getIncomes, incomes, deleteIncome, totalIncome, error, setError } = useGlobalContext();
+    const [inputState, setInputState] = useState({
+        title: "",
+        amount: "",
+        date: "",
+        category: "",
+        description: "",
+    });
 
-    // Fetch incomes when the component mounts
     useEffect(() => {
-        getIncomes()
-    }, []);
+        getIncomes(); // Fetch incomes on component mount
+    }, [getIncomes]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addIncome(inputState);
+        setInputState({
+            title: "",
+            amount: "",
+            date: null,
+            category: "",
+            description: "",
+        });
+    };
+
+    const handleInput = (name) => (event) => {
+        const value = name === "amount" ? parseFloat(event.target.value) : event.target.value;
+        setInputState({ ...inputState, [name]: value });
+        setError("");
+    };
+
+    const categories = [
+        { value: "salary", label: "Salary" },
+        { value: "freelancing", label: "Freelancing" },
+        { value: "investments", label: "Investments" },
+        { value: "side-hustle", label: "Side Hustle" },
+        { value: "savings", label: "Savings" },
+        { value: "stocks", label: "Stocks" },
+        { value: "bank", label: "Bank" },
+        { value: "others", label: "Others" },
+    ];
 
     return (
         <IncomeStyled>
@@ -20,23 +56,35 @@ function Income() {
                 <h2 className="total-income">Total Income: <span>${totalIncome()}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
-                        <Form />
+                        <Form
+                            handleSubmit={handleSubmit}
+                            handleInput={handleInput}
+                            inputState={inputState}
+                            error={error}
+                            buttonText="Add Income"
+                            titlePlaceholder="Income Title"
+                            amountPlaceholder="Income Amount"
+                            categories={categories}
+                            icon={plus}
+                        />
                     </div>
                     <div className="incomes">
                         {incomes.map((income) => {
                             const { _id, type, title, amount, date, category, description } = income;
-                            return <IncomeItem 
-                            key={_id} 
-                            id={_id} 
-                            title={title} 
-                            amount={amount} 
-                            date={date} 
-                            type={type}
-                            category={category} 
-                            description={description}
-                            indicatorColor={"var(--color-green)"}
-                            deleteItem={deleteIncome} />;
-
+                            return (
+                                <IncomeItem
+                                    key={_id}
+                                    id={_id}
+                                    title={title}
+                                    amount={amount}
+                                    date={date}
+                                    type={type}
+                                    category={category}
+                                    description={description}
+                                    indicatorColor={"var(--color-green)"}
+                                    deleteItem={deleteIncome}
+                                />
+                            );
                         })}
                     </div>
                 </div>
@@ -70,7 +118,7 @@ const IncomeStyled = styled.div`
         display: flex;
         gap: 2rem;
         .incomes {
-            flex: 1;  
+            flex: 1;
         }
     }
 `;

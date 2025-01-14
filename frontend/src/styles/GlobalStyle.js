@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle`
         --color-grey: #aaa;
         --color-accent: #F56692;
         --color-delete: #FF0000;
+        --color-red: #e63946;
     }
 
     body{
@@ -33,4 +34,24 @@ export const GlobalStyle = createGlobalStyle`
         color: var(--primary-color);
     }
 
+    .error {
+        color: red;
+        animation: shake 0.5s ease-in-out;
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+                }
+            25% {
+                transform: translateX(10px);
+                }
+            50% {
+                transform: translateX(-10px);
+                }
+            75% {
+                transform: translateX(10px);
+                }
+            100% {
+                transform: translateX(0);
+            }
+        }
     `;

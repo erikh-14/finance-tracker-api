@@ -147,65 +147,70 @@ const DashboardStyled = styled.div`
         }
 
         .history-con {
-            grid-column: span 1;
-            background: #fcf6f9;
-            border: 2px solid #ffffff;
-            border-radius: 20px;
-            padding: 1rem;
-            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+    grid-column: span 1;
+    background: #fcf6f9;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
 
-            .salary-container {
-                margin-bottom: 2rem;
+    /* Add spacing between history and salary containers */
+    > :not(:last-child) {
+        margin-bottom: 2rem; /* Ensures separation between History and Min/Max sections */
+    }
 
-                .salary-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 0.5rem 1rem;
-                    background: #ffffff;
-                    border: 2px solid #f0f0f0;
-                    border-radius: 10px;
-                    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.05);
-                    margin-bottom: 1rem;
+    .salary-container {
+        margin-bottom: 2rem;
 
-                    p {
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                        color: #333333;
-                        margin: 0;
-                    }
+        .salary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
 
-                    .salary-title {
-                        font-size: 1.5rem;
-                        font-weight: bold;
-                        text-align: center;
+            p {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #333333;
+                margin: 0;
+            }
 
-                        span {
-                            color: #222260;
-                            font-size: 1.8rem;
-                        }
-                    }
-                }
+            .salary-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
 
-                .salary-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 1rem;
-                    background: #ffffff;
-                    border: 2px solid #f0f0f0;
-                    border-radius: 10px;
-                    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.05);
-
-                    p {
-                        font-size: 1.2rem;
-                        font-weight: 600;
-                        margin: 0;
-                        color: #555555;
-                    }
+                span {
+                    color: #222260;
+                    font-size: 1.8rem;
                 }
             }
         }
+
+        .salary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.05);
+
+            p {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin: 0;
+                color: #555555;
+            }
+        }
+    }
+}
     }
 
     @media (min-width: 768px) {

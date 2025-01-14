@@ -1,51 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useGlobalContext } from "../../context/globalContext";
 import Button from "../Button/Button";
-import { plus } from "../../utils/Icons";
 
-
-function Form() {
-    const { addIncome, getIncomes } = useGlobalContext();
-    const [inputState, setInputState] = useState({
-        title: "",
-        amount: "",
-        date: "",
-        category: "",
-        description: "",
-    });
-
+function Form({
+    handleSubmit,
+    handleInput,
+    inputState,
+    error,
+    buttonText,
+    titlePlaceholder,
+    amountPlaceholder,
+    categories,
+    icon,
+}) {
     const { title, amount, date, category, description } = inputState;
-
-    const handleInput = (name) => (event) => {
-        const value = name === "amount" ? parseFloat(event.target.value) : event.target.value;
-        setInputState({ ...inputState, [name]: value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
-        console.log("Submitting data:", inputState); // Debug log
-        addIncome(inputState); // Call the addIncome function from context
-        getIncomes()
-        setInputState({
-            title: "",
-            amount: "",
-            date: "",
-            category: "",
-            description: "",
-        }); // Reset the form
-    };
 
     return (
         <FormStyled onSubmit={handleSubmit}>
+            {error && <p className="error">{error}</p>}
             <div className="input-control">
                 <input
                     type="text"
                     value={title}
                     name="title"
-                    placeholder="Salary Title"
+                    placeholder={titlePlaceholder}
                     onChange={handleInput("title")}
                 />
             </div>
@@ -54,7 +34,7 @@ function Form() {
                     type="text"
                     value={amount}
                     name="amount"
-                    placeholder="Salary Amount"
+                    placeholder={amountPlaceholder}
                     onChange={handleInput("amount")}
                 />
             </div>
@@ -65,7 +45,7 @@ function Form() {
                     placeholderText="Enter A Date"
                     dateFormat="MM/dd/yyyy"
                     onChange={(date) =>
-                        setInputState({ ...inputState, date: date })
+                        handleInput("date")({ target: { value: date } })
                     }
                 />
             </div>
@@ -76,14 +56,14 @@ function Form() {
                     name="category"
                     onChange={handleInput("category")}
                 >
-                    <option value="salary">Salary</option>
-                    <option value="freelancing">Freelancing</option>
-                    <option value="investments">Investments</option>
-                    <option value="side-hustle">Side Hustle</option>
-                    <option value="savings">Savings</option>
-                    <option value="stocks">Stocks</option>
-                    <option value="bank">Bank</option>
-                    <option value="others">Others</option>
+                    <option value="" disabled>
+                        Select Option
+                    </option>
+                    {categories.map((cat, index) => (
+                        <option key={index} value={cat.value}>
+                            {cat.label}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className="input-control">
@@ -99,8 +79,8 @@ function Form() {
             </div>
             <div className="submit-btn">
                 <Button
-                    name={'Add Income'}
-                    icon={plus}
+                    name={buttonText}
+                    icon={icon}
                     bPad={".8rem 1.6rem"}
                     bRad={"30px"}
                     bg={"var(--color-accent)"}
@@ -143,7 +123,7 @@ const FormStyled = styled.form`
             }
         }
     }
-    
+
     .submit-btn {
         display: flex;
         justify-content: center;
@@ -151,15 +131,12 @@ const FormStyled = styled.form`
         button {
             padding: 1rem 2rem;
             font-size: 1.2rem;
-           
             box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            
 
             &:hover {
-                
                 background: var(--color-green) !important;
             }
         }
