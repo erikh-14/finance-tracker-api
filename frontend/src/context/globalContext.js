@@ -9,7 +9,7 @@ export const GlobalProvider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [error, setError] = useState(null);
 
-    const BASE_URL = "http://budgetsimpler.com/SWE";
+    const BASE_URL = "http://localhost:5000/api/v1";
 
     // Function to fetch incomes
     const getIncomes = useCallback(async () => {
