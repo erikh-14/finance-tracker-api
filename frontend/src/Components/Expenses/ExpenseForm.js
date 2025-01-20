@@ -6,28 +6,33 @@ import { useGlobalContext } from "../../context/globalContext";
 import Button from "../Button/Button";
 import { plus } from "../../utils/Icons";
 
-
 function ExpenseForm() {
-    const { addExpense, error, setError } = useGlobalContext();
+    const { addExpense, error, setError } = useGlobalContext(); // Access global context functions
     const [inputState, setInputState] = useState({
         title: "",
         amount: "",
-        date: "",
+        date: null, // Use null for an empty date
         category: "",
         description: "",
     });
 
     const { title, amount, date, category, description } = inputState;
 
+    // Handle input changes
     const handleInput = (name) => (event) => {
-        const value = name === "amount" ? parseFloat(event.target.value) : event.target.value;
+        const value = name === "amount" ? parseFloat(event.target.value) || "" : event.target.value; // Handle numbers safely
         setInputState({ ...inputState, [name]: value });
-        setError('')
+        setError(""); // Clear any existing error message
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await addExpense(inputState);
+        if (!title || !amount || !date || !category) {
+            setError("All fields are required!");
+            return;
+        }
+        await addExpense(inputState); // Call the addExpense function from context
         setInputState({
             title: "",
             amount: "",
@@ -36,7 +41,6 @@ function ExpenseForm() {
             description: "",
         });
     };
-    
 
     return (
         <ExpenseFormStyled onSubmit={handleSubmit}>
@@ -65,9 +69,7 @@ function ExpenseForm() {
                     selected={date}
                     placeholderText="Enter A Date"
                     dateFormat="MM/dd/yyyy"
-                    onChange={(date) =>
-                        setInputState({ ...inputState, date: date })
-                    }
+                    onChange={(date) => setInputState({ ...inputState, date })}
                 />
             </div>
             <div className="input-control">
@@ -77,7 +79,9 @@ function ExpenseForm() {
                     name="category"
                     onChange={handleInput("category")}
                 >
-                    <option value="" disabled>Select Option</option>
+                    <option value="" disabled>
+                        Select Option
+                    </option>
                     <option value="education">Education</option>
                     <option value="groceries">Groceries</option>
                     <option value="health">Health</option>
@@ -101,7 +105,7 @@ function ExpenseForm() {
             </div>
             <div className="submit-btn">
                 <Button
-                    name={'Add Expense'}
+                    name={"Add Expense"}
                     icon={plus}
                     bPad={".8rem 1.6rem"}
                     bRad={"30px"}
@@ -145,7 +149,7 @@ const ExpenseFormStyled = styled.form`
             }
         }
     }
-    
+
     .submit-btn {
         display: flex;
         justify-content: center;
@@ -153,18 +157,21 @@ const ExpenseFormStyled = styled.form`
         button {
             padding: 1rem 2rem;
             font-size: 1.2rem;
-           
             box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            
 
             &:hover {
-                
                 background: var(--color-green) !important;
             }
         }
+    }
+
+    .error {
+        color: var(--color-red);
+        font-size: 1rem;
+        text-align: center;
     }
 `;
 
